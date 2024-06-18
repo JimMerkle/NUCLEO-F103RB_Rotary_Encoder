@@ -134,19 +134,22 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   int16_t count=0;
-  int16_t prev_count=0;
+  int16_t prev_count=100; // force display of position following each reset
   while (1)
   {
-	//HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	//printf("Hello World\n");
-	//HAL_Delay(500);
-
 	// Read Rotary Encoder "position" via TIM2->CNT
+	// The encoder uses PA0 and PA1
 	count = (int16_t)TIM2->CNT;
 	if(count !=prev_count){
 		printf("%d\n",count);
+		//printf("%d, A:%u, B:%u\n",count,HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0),HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_1));
 		prev_count = count;
 	}
+	// Read PA0 and turn the NUCLEO On-Board LED ON or OFF depending on the signal read
+	if(GPIO_PIN_RESET == HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_0)) // switch closed - grounded
+		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET); // turn ON the LED
+	else
+		HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);   // turn OFF the LED
 
     /* USER CODE END WHILE */
 
