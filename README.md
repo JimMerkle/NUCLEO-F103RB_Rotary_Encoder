@@ -8,7 +8,7 @@
 
     Although the KY-040 module uses "CLK" and "DT" for signal names, these are the
 	"A" and "B" switch outputs, that connect to the common GND signal as the rotary
-	encoder rotates.  Two pull=up resistors on the board pull the signal
+	encoder rotates.  Two pull-up resistors on the board pull the signal
 	high (to the "+" voltage) when either switch is open.
 
 
